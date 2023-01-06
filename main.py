@@ -1,5 +1,7 @@
 from flask import Flask, request
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
+from template_check import template_check
+from type_validation import validate_types
 
 import config
 
@@ -14,27 +16,33 @@ def main():
     return db.all()
 
 
+@app.route("/get_form", methods=["GET", "POST"])
 @app.route("/get_form/", methods=["GET", "POST"])
 def get_form():
     if request.method == "GET":
-        print(request)
-        args = request.args
-        query = request.query_string
-        print(f'args = {args}')
-        print(f'query = {query}')
+        form = request.args.to_dict()
 
-        return 'get'
+        form_val = validate_types(form)
+
+        for template in db.all():
+            name = template.pop('name')
+            if template_check(template, form_val):
+                return name
+
+        return form_val
 
     elif request.method == "POST":
-        print(request)
-        args = request.args
-        print(f'args = {args}')
-        query = request.query_string
-        print(f'query = {query}')
-        # for arg, value in query:
-        #     print(f'arg {arg}: {value}')
+        if request.mimetype == 'application/x-www-form-urlencoded':
+            form = request.form
 
-        return 'post'
+        form_val = validate_types(form)
+
+        for template in db.all():
+            name = template.pop('name')
+            if template_check(template, form_val):
+                return name
+
+        return form_val
 
 
 if __name__ == "__main__":

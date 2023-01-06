@@ -24,9 +24,3 @@ def check_types(value):
         return 'email'
     else:
         return 'text'
-
-
-if __name__ == "__main__":
-    fr = {"k1": "", "k2": "+7 915 000 00 00", "k3": "aaa@gmail.com", "k4": "12.12.2000"}
-    print(validate_types(fr))
-

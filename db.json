@@ -1,1 +1,1 @@
-{"_default": {"1": {"name": "template", "date": "date", "phone": "phone", "email": "email", "text": "text"}}}
+{"_default": {"1": {"name": "template1", "date": "date", "phone": "phone", "email": "email", "text": "text"}, "2": {"name": "template2", "work_email": "email", "work_phone": "phone"}}}
